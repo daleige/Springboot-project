@@ -11,12 +11,12 @@ import com.chenyangqi.server.utils.TokenUtil;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.security.provider.MD5;
 
 import java.util.Date;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserDao userDao;
 
@@ -57,7 +57,7 @@ public class UserService {
         return userDao.getUserByPhone(phone);
     }
 
-    public String login(User user) {
+    public String login(User user) throws Exception {
         String phone = user.getPhone();
         if (StringUtils.isNullOrEmpty(phone)) {
             throw new ConditionException("手机号不能为空！");
@@ -66,7 +66,7 @@ public class UserService {
         if (dbUser == null) {
             throw new ConditionException("当前用户不存在！");
         }
-        String password = dbUser.getPassword();
+        String password = user.getPassword();
         String rawPassword;
         try {
             rawPassword = RSAUtil.decrypt(password);
@@ -78,7 +78,13 @@ public class UserService {
         if (!md5Password.equals(dbUser.getPassword())) {
             throw new ConditionException("密码错误！");
         }
-        TokenUtil tokenUtil = new TokenUtil();
-        return tokenUtil.generateToken(user.getId());
+        return TokenUtil.generateToken(user.getId());
+    }
+
+    public User getUserInfo(Long userId) {
+        User user = userDao.getUserById(userId);
+        UserInfo userInfo = userDao.getUserInfoById(userId);
+        user.setUserInfo(userInfo);
+        return user;
     }
 }

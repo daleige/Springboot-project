@@ -1,5 +1,6 @@
 package com.chenyangqi.api;
 
+import com.chenyangqi.api.supper.UserSupper;
 import com.chenyangqi.domain.JsonResponse;
 import com.chenyangqi.domain.User;
 import com.chenyangqi.server.UserService;
@@ -16,10 +17,23 @@ public class UserApi {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserSupper userSupper;
+
+    /**
+     * 获取用户信息
+     */
+    @GetMapping("/getUser")
+    public JsonResponse<User> getUserInfo() {
+        Long userId = userSupper.getCurrentUserId();
+        User user = userService.getUserInfo(userId);
+        return new JsonResponse<>(user);
+    }
+
     /**
      * 获取rsa公钥
      */
-    @GetMapping
+    @GetMapping("/rsa-pks")
     public JsonResponse<String> getRsaPublicKey() {
         String rsaPublicKey = RSAUtil.getPublicKeyStr();
         return new JsonResponse<>(rsaPublicKey);
@@ -37,7 +51,8 @@ public class UserApi {
     /**
      * 登录接口
      */
-    public JsonResponse<String> login(@RequestBody User user) {
+    @PostMapping("/user-tokens")
+    public JsonResponse<String> login(@RequestBody User user) throws Exception {
         String token = userService.login(user);
         return new JsonResponse<>(token);
     }
