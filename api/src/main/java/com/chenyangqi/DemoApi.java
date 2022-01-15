@@ -1,4 +1,4 @@
-package com.chenyangqi.api.api;
+package com.chenyangqi;
 
 import com.chenyangqi.server.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
