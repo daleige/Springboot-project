@@ -3,13 +3,11 @@ package com.chenyangqi.api;
 import com.chenyangqi.api.supper.UserSupper;
 import com.chenyangqi.domain.JsonResponse;
 import com.chenyangqi.domain.User;
+import com.chenyangqi.domain.UserInfo;
 import com.chenyangqi.server.UserService;
 import com.chenyangqi.server.utils.RSAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserApi {
@@ -57,4 +55,22 @@ public class UserApi {
         return new JsonResponse<>(token);
     }
 
+    @PutMapping("/users")
+    public JsonResponse<String> updateUsers(@RequestBody User user) {
+        Long userId = userSupper.getCurrentUserId();
+        user.setId(userId);
+        userService.updateUsers(user);
+        return JsonResponse.success();
+    }
+
+    /**
+     * 更新用户信息
+     */
+    @PutMapping("/user-infos")
+    public JsonResponse<String> updateUserInfos(@RequestBody UserInfo userInfo) {
+        Long userId = userSupper.getCurrentUserId();
+        userInfo.setUserId(userId);
+        userService.updateUserInfos(userInfo);
+        return JsonResponse.success();
+    }
 }
