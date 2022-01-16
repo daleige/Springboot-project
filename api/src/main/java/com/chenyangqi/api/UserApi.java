@@ -23,7 +23,7 @@ public class UserApi {
     /**
      * 获取用户信息
      */
-    @GetMapping("/getUser")
+    @GetMapping("/get-user")
     public JsonResponse<User> getUserInfo() {
         Long userId = userSupper.getCurrentUserId();
         User user = userService.getUserInfo(userId);

@@ -43,7 +43,7 @@ public class RSAUtil {
 		return (RSAPrivateKey) KeyFactory.getInstance("RSA")
 				.generatePrivate(new PKCS8EncodedKeySpec(decoded));
 	}
-	
+
 	public static RSAKey generateKeyPair() throws NoSuchAlgorithmException {
 		KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
 		keyPairGen.initialize(1024, new SecureRandom());
@@ -78,50 +78,50 @@ public class RSAUtil {
 		byte[] inputByte = Base64.decodeBase64(text.getBytes(StandardCharsets.UTF_8));
 		return new String(cipher.doFinal(inputByte));
 	}
-	
+
 	public static class RSAKey {
-		  private RSAPrivateKey privateKey;
-		  private String privateKeyString;
-		  private RSAPublicKey publicKey;
-		  public String publicKeyString;
+		private RSAPrivateKey privateKey;
+		private String privateKeyString;
+		private RSAPublicKey publicKey;
+		public String publicKeyString;
 
-		  public RSAKey(RSAPrivateKey privateKey, String privateKeyString, RSAPublicKey publicKey, String publicKeyString) {
-		    this.privateKey = privateKey;
-		    this.privateKeyString = privateKeyString;
-		    this.publicKey = publicKey;
-		    this.publicKeyString = publicKeyString;
-		  }
-
-		  public RSAPrivateKey getPrivateKey() {
-		    return this.privateKey;
-		  }
-
-		  public void setPrivateKey(RSAPrivateKey privateKey) {
-		    this.privateKey = privateKey;
-		  }
-
-		  public String getPrivateKeyString() {
-		    return this.privateKeyString;
-		  }
-
-		  public void setPrivateKeyString(String privateKeyString) {
-		    this.privateKeyString = privateKeyString;
-		  }
-
-		  public RSAPublicKey getPublicKey() {
-		    return this.publicKey;
-		  }
-
-		  public void setPublicKey(RSAPublicKey publicKey) {
-		    this.publicKey = publicKey;
-		  }
-
-		  public String getPublicKeyString() {
-		    return this.publicKeyString;
-		  }
-
-		  public void setPublicKeyString(String publicKeyString) {
-		    this.publicKeyString = publicKeyString;
-		  }
+		public RSAKey(RSAPrivateKey privateKey, String privateKeyString, RSAPublicKey publicKey, String publicKeyString) {
+			this.privateKey = privateKey;
+			this.privateKeyString = privateKeyString;
+			this.publicKey = publicKey;
+			this.publicKeyString = publicKeyString;
 		}
+
+		public RSAPrivateKey getPrivateKey() {
+			return this.privateKey;
+		}
+
+		public void setPrivateKey(RSAPrivateKey privateKey) {
+			this.privateKey = privateKey;
+		}
+
+		public String getPrivateKeyString() {
+			return this.privateKeyString;
+		}
+
+		public void setPrivateKeyString(String privateKeyString) {
+			this.privateKeyString = privateKeyString;
+		}
+
+		public RSAPublicKey getPublicKey() {
+			return this.publicKey;
+		}
+
+		public void setPublicKey(RSAPublicKey publicKey) {
+			this.publicKey = publicKey;
+		}
+
+		public String getPublicKeyString() {
+			return this.publicKeyString;
+		}
+
+		public void setPublicKeyString(String publicKeyString) {
+			this.publicKeyString = publicKeyString;
+		}
+	}
 }

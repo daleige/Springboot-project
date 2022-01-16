@@ -78,7 +78,7 @@ public class UserService {
         if (!md5Password.equals(dbUser.getPassword())) {
             throw new ConditionException("密码错误！");
         }
-        return TokenUtil.generateToken(user.getId());
+        return TokenUtil.generateToken(dbUser.getId());
     }
 
     public User getUserInfo(Long userId) {
