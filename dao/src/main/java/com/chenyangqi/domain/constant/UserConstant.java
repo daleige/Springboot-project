@@ -10,4 +10,6 @@ public class UserConstant {
     public static final String DEFAULT_BIRTH = "1999-10-01";
 
     public static final String DEFAULT_NICK = "萌新";
+
+    public static final String FOLLOWING_GROUP_DEFAULT_TYPE="2";
 }
