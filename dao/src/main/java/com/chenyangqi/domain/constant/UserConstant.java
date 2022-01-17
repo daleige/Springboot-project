@@ -11,5 +11,5 @@ public class UserConstant {
 
     public static final String DEFAULT_NICK = "萌新";
 
-    public static final String FOLLOWING_GROUP_DEFAULT_TYPE="2";
+    public static final String USER_FOLLOWING_GROUP_ALL_NAME="2";
 }
