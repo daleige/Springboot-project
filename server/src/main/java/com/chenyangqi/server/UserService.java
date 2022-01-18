@@ -1,6 +1,8 @@
 package com.chenyangqi.server;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chenyangqi.dao.UserDao;
+import com.chenyangqi.domain.PageResult;
 import com.chenyangqi.domain.User;
 import com.chenyangqi.domain.UserInfo;
 import com.chenyangqi.domain.constant.UserConstant;
@@ -12,6 +14,7 @@ import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -107,5 +110,18 @@ public class UserService {
     public List<UserInfo> getUserInfoByUserIds(Set<Long> followingIdSet) {
 
         return userDao.getUserInfoByUserIds(followingIdSet);
+    }
+
+    public PageResult<UserInfo> pageListUserInfos(JSONObject params) {
+        Integer no = params.getInteger("no");
+        Integer size = params.getInteger("size");
+        params.put("start", (no - 1) * size);
+        params.put("limit", size);
+        Integer total = userDao.pageCountUserInfos(params);
+        List<UserInfo> list = new ArrayList<>();
+        if (total > 0) {
+            list = userDao.pageListUserInfos(params);
+        }
+        return new PageResult<>(total, list);
     }
 }
