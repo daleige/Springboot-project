@@ -14,6 +14,9 @@ public class TokenUtil {
 
     private static final String ISSUER = "签发者";
 
+    /**
+     * 生产userId对应的token
+     */
     public static String generateToken(Long userId) throws Exception {
         Algorithm algorithm = Algorithm.RSA256(RSAUtil.getPublicKey(), RSAUtil.getPrivateKey());
         Calendar calendar = Calendar.getInstance();
@@ -25,6 +28,11 @@ public class TokenUtil {
                 .sign(algorithm);
     }
 
+    /**
+     * 验证token
+     * @param token
+     * @return
+     */
     public static Long verifyToken(String token) {
         try {
             Algorithm algorithm = Algorithm.RSA256(RSAUtil.getPublicKey(), RSAUtil.getPrivateKey());
