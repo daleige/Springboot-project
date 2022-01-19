@@ -1,13 +1,18 @@
 package com.chenyangqi.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chenyangqi.api.supper.UserSupper;
 import com.chenyangqi.domain.JsonResponse;
+import com.chenyangqi.domain.PageResult;
 import com.chenyangqi.domain.User;
 import com.chenyangqi.domain.UserInfo;
+import com.chenyangqi.server.UserFollowingService;
 import com.chenyangqi.server.UserService;
 import com.chenyangqi.server.utils.RSAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserApi {
@@ -17,6 +22,9 @@ public class UserApi {
 
     @Autowired
     private UserSupper userSupper;
+
+    @Autowired
+    private UserFollowingService userFollowingService;
 
     /**
      * 获取用户信息
@@ -72,5 +80,21 @@ public class UserApi {
         userInfo.setUserId(userId);
         userService.updateUserInfos(userInfo);
         return JsonResponse.success();
+    }
+
+    @GetMapping("/user-infos")
+    public JsonResponse<PageResult<UserInfo>> pageListUserInfos(@RequestParam Integer no,
+                                                                @RequestParam Integer size,
+                                                                @RequestParam String nick) {
+        Long userId = userSupper.getCurrentUserId();
+        JSONObject params = new JSONObject();
+        params.put("no", no);
+        params.put("size", size);
+        params.put("nick", nick);
+        params.put("userId", userId);
+        PageResult<UserInfo> result = userService.pageListUserInfos(params);
+        if (result.getTotal() > 0) {
+            List<UserInfo> checkUserInfoList = userFollowingService.checkFollowingStatus(result.getList(), userId);
+        }
     }
 }
